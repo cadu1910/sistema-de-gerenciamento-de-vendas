@@ -1,0 +1,103 @@
+-- criação do banco de dados
+DROP DATABASE IF EXISTS sistema_vendas;
+CREATE DATABASE sistema_vendas;
+
+
+-- seleção do banco de dados
+USE sistema_vendas;
+
+-- criação da tabela de clientes 
+CREATE TABLE clientes (
+  cliente_id INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(100),
+  email VARCHAR(100),
+  telefone VARCHAR(20)
+);
+
+-- criação da tabela de produtos
+CREATE TABLE produtos (
+  produto_id INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(100),
+  preco DECIMAL(10, 2),
+  estoque INT
+);
+
+-- criação da tabela de vendas
+CREATE TABLE vendas (
+  venda_id INT PRIMARY KEY AUTO_INCREMENT,
+  cliente_id INT,
+  produto_id INT,
+  quantidade INT,
+  data_venda DATE,
+  FOREIGN KEY (cliente_id) REFERENCES clientes(cliente_id),
+  FOREIGN KEY (produto_id) REFERENCES produtos(produto_id)
+);
+
+-- inserção de dados na tabela clientes
+INSERT INTO clientes (nome, email, telefone) VALUES
+('Maria Silva', 'maria@email.com', '11999999999'),
+('João Sousa', 'joao@email.com', '11988888888'),
+('Ana Lima', 'ana@email.com', '11977777777');
+
+-- inserção de dados na tabela produtos
+INSERT INTO produtos (nome, preco, estoque) VALUES
+('notebook', 2500.00, 10),
+('smartphone', 1500.00, 20),
+('tablet', 800.00, 15);
+
+-- inserção de dados na tabela vendas
+INSERT INTO vendas (cliente_id, produto_id, quantidade, data_venda) VALUES
+(1, 1, 1, '2024-08-14'),
+(2, 2, 2, '2024-08-14'),
+(3, 3, 1, '2024-08-15');
+
+-- consulta para exibir todas as vendas realizadas
+SELECT 
+  vendas.venda_id,
+  clientes.nome AS cliente,
+  produtos.nome AS produto,
+  vendas.quantidade,
+  vendas.data_venda
+FROM vendas
+JOIN clientes ON vendas.cliente_id = clientes.cliente_id
+JOIN produtos ON vendas.produto_id = produtos.produto_id;
+
+-- consulta para mostrar todas as compras realizadas por um cliente específico
+SELECT 
+  clientes.nome AS cliente,
+  produtos.nome AS produto,
+  vendas.quantidade,
+  vendas.data_venda
+FROM vendas
+JOIN clientes ON vendas.cliente_id = clientes.cliente_id
+JOIN produtos ON vendas.produto_id = produtos.produto_id
+WHERE clientes.cliente_id = 1;
+
+-- consulta para exibir o total de vendas realizadas de cada produto
+SELECT 
+  produtos.nome AS produto, 
+  SUM(vendas.quantidade) AS total_vendido 
+FROM vendas
+JOIN produtos ON vendas.produto_id = produtos.produto_id
+GROUP BY produtos.nome;
+
+-- atualização do estoque de um produto após uma venda
+UPDATE produtos 
+SET estoque = estoque - 1 
+WHERE produto_id = 1;
+
+-- atualização das informações de um cliente
+UPDATE clientes 
+SET email = 'novoemail@email.com' 
+WHERE cliente_id = 1;
+
+-- deleção de uma venda
+DELETE FROM vendas 
+WHERE venda_id = 1;
+
+-- deleção de um cliente e suas vendas relacionadas
+DELETE FROM vendas 
+WHERE cliente_id = 2;
+
+DELETE FROM clientes 
+WHERE cliente_id = 2;
