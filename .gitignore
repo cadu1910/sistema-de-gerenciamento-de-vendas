@@ -1,0 +1,16 @@
+# Ignorar arquivos de backup do MySQL
+*.sql.bak
+*.sql~
+
+# Ignorar arquivos temporários do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignorar logs
+*.log
+
+# Ignorar arquivos de configuração do ambiente
+.env
+
+# Ignorar diretórios de build
+/build/
