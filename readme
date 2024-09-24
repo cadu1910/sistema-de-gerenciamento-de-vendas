@@ -1,0 +1,65 @@
+# Sistema de Vendas
+
+Este projeto é um sistema simples de gerenciamento de vendas, criado usando SQL. Ele contém tabelas para **clientes**, **produtos** e **vendas**, com operações de inserção, consulta, atualização e exclusão.
+
+## Estrutura do Banco de Dados
+
+### Tabelas Criadas:
+1. **clientes**: Contém informações sobre os clientes, como nome, e-mail e telefone.
+2. **produtos**: Armazena dados sobre os produtos, incluindo nome, preço e estoque.
+3. **vendas**: Registra as vendas, vinculando clientes e produtos, e a quantidade de produtos vendidos em cada transação.
+
+### Comandos Implementados:
+- **Criação do Banco de Dados e Tabelas**: Definição do banco de dados e suas tabelas.
+- **Inserção de Dados**: Exemplos de inserção de dados em cada tabela.
+- **Consultas**: Exemplos de consultas SQL para recuperar informações, como listar todas as vendas e mostrar compras específicas de clientes.
+- **Atualizações e Deleções**: Atualização de dados e exclusão de registros de vendas e clientes.
+
+## Como Executar
+
+1. Clone este repositório:
+    
+    git clone https://github.com/seu-usuario/sistema-vendas.git
+    
+
+2. Acesse o banco de dados MySQL ou MariaDB:
+    
+    mysql -u seu_usuario -p
+    
+
+3. Execute o arquivo SQL principal (caso tenha um arquivo `.sql` no projeto):
+    
+    source caminho_para_o_arquivo.sql;
+    
+
+4. Alternativamente, cole e execute os comandos diretamente em seu banco de dados.
+
+## Funcionalidades
+
+- **Criação do Banco**: O banco de dados é criado com as tabelas necessárias.
+- **Inserção de Dados**: Insira clientes, produtos e vendas manualmente.
+- **Consultas SQL**: Realize consultas para verificar vendas e compras específicas.
+- **Atualizações e Deleções**: Atualize os registros de clientes e estoque, e exclua vendas e clientes conforme necessário.
+
+## Exemplo de Consultas
+
+1. **Exibir todas as vendas realizadas**:
+    
+    SELECT vendas.venda_id, clientes.nome AS cliente, produtos.nome AS produto,
+           vendas.quantidade, vendas.data_venda
+    FROM vendas
+    JOIN clientes ON vendas.cliente_id = clientes.cliente_id
+    JOIN produtos ON vendas.produto_id = produtos.produto_id;
+    
+
+2. **Exibir total de vendas por produto**:
+    
+    SELECT produtos.nome AS produto, SUM(vendas.quantidade) AS total_vendido
+    FROM vendas
+    JOIN produtos ON vendas.produto_id = produtos.produto_id
+    GROUP BY produtos.nome;
+    
+
+## Licença
+
+Este projeto está licenciado sob os termos da licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
